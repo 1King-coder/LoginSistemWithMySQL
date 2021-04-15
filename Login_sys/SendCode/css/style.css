@@ -1,0 +1,31 @@
+section {
+    background-color: rgb(0, 0, 0);
+    align-content: center;
+    padding: 60px 120px 60px 120px ;
+    display: inline-block;
+}
+
+div {
+    background-color: white;
+    display: inline-block;
+    padding: 60px 120px 60px 120px;
+    margin: 0px;
+}
+#title {
+    margin: 0;
+    padding: 50px;
+    font-size: 60px;
+    font-family: sans-serif;
+    text-align: justify;
+}
+#code {
+    margin: 0;
+    padding: 60px;
+    font-size: 60px;
+    font-family: sans-serif;
+}
+
+#code:hover {
+    transition: cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+

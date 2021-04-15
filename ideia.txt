@@ -1,0 +1,20 @@
+Sistema de login com banco de dados em sql.
+
+Funcionalidades:
+
+    - Regitro de usuário com username, e-mail e senha em hash.
+    - O login poderá ser realizado tanto com username quanto com e-mail
+    - Listar usuários registrados
+    - Verificar se usuário já está registrado.
+    - Remover registro.
+    - Senha sempre ser registrada em hash.
+    - Sistema irá comparar as senhas em hash.
+    - Para trocar de senha: 
+        > Usuário deverá entrar com e-mail que registrou
+          em sua conta.
+        > O programa enviará um código para seu e-mail e requisita-
+          rá o código para seguir com a operação de troca.
+    - Para trocar o username só requisita a senha do usuário.
+    
+    OBS: O usuário deve estar logado para alterar dados no banco de dados.
+          
