@@ -1,31 +1,39 @@
-section {
+.container {
     background-color: rgb(0, 0, 0);
     align-content: center;
-    padding: 60px 120px 60px 120px ;
+    padding: 80px 120px 80px 120px ;
     display: inline-block;
+    border-radius: 20px
 }
 
-div {
+.div-container {
     background-color: white;
     display: inline-block;
     padding: 60px 120px 60px 120px;
     margin: 0px;
+    border-radius: 20px;
 }
+
 #title {
     margin: 0;
-    padding: 50px;
+    padding: 0px;
     font-size: 60px;
     font-family: sans-serif;
     text-align: justify;
 }
+
 #code {
     margin: 0;
-    padding: 60px;
+    padding: 10px;
+    border-radius: 20px;
     font-size: 60px;
     font-family: sans-serif;
+    transition: 500ms ease-in-out;
 }
 
 #code:hover {
-    transition: cubic-bezier(0.165, 0.84, 0.44, 1);
+    background: rgba(0, 0, 0, 0.24);
 }
+
+
 
