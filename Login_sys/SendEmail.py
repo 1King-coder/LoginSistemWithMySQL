@@ -12,20 +12,20 @@ class SendEmail:
         self.code = code
         self.user_input = user_input
 
-    def get_email(self):
+    def get_email(self) -> str:
         return self.users_db.get_email(self.user_input)
 
-    def get_username(self):
+    def get_username(self) -> str:
         return self.users_db.get_username(self.user_input)
 
     @staticmethod
-    def set_template(code):
+    def set_template(code) -> str:
         with open('Login_sys/SendCode/template.html', 'r') as html:
             template = Template(html.read())
             body = template.substitute(Code=code)
             return body
 
-    def set_email(self):
+    def set_email(self) -> MIMEMultipart:
         body = self.set_template(self.code)
         message = MIMEMultipart()
         message['from'] = "Vitor's Login System"

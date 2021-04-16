@@ -19,7 +19,7 @@ class Recovery_Password(QMainWindow, Ui_MainWindow):
         self.verify = Verifications()
         self.Change_btn.clicked.connect(self.change_password_in_db)
 
-    def get_user_inputs(self):
+    def get_user_inputs(self) -> list:
         return [
             self.New_pass.text(),
             self.New_pass_repeat.text()

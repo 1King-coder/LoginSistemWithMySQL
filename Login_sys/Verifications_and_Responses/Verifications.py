@@ -1,4 +1,4 @@
-import re
+from re import search
 
 
 class Verifications:
@@ -7,17 +7,23 @@ class Verifications:
         for field in fields:
             if field.strip() == '':
                 return True
+
         return False
 
     @staticmethod
-    def is_email(input_):
-        return re.search(r'.*@.*\.com', input_)
+    def is_email(input_) -> bool:
+        if search(r'.*@.*\.com', input_):
+            return True
+
+        else:
+            return False
 
     @staticmethod
-    def special_characters(inputs):
+    def special_characters(inputs) -> bool:
         for input_ in inputs:
-            if re.search(r'.*!.*|.*#.*|.*\$.*|.*%.*'
-                         r'|.*¨.*|.*&.*|.*\*.*|.*\+.*|.*".*|.*\'.*',
-                         input_):
+            if search(r'.*!.*|.*#.*|.*\$.*|.*%.*'
+                      r'|.*¨.*|.*&.*|.*\*.*|.*\+.*|.*".*|.*\'.*',
+                      input_):
                 return True
+
         return False

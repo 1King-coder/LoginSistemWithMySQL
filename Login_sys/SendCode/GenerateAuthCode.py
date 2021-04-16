@@ -1,10 +1,11 @@
 from random import randint
 
 
-def generate_auth_code():
+def generate_auth_code() -> str:
     code = ''
-    for i in range(6):
+    for _ in range(6):
         code += str(randint(0, 9))
+
     return code
 
 

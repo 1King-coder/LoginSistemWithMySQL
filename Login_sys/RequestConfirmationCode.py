@@ -25,8 +25,11 @@ class Request_Confirmation_Code(QMainWindow, Ui_MainWindow):
         self.verify = Verifications()
         self.Confirm_btn.clicked.connect(self.confirm)
 
+    def get_user_input(self) -> list:
+        return [self.Code.displayText()]
+
     def confirm(self):
-        user_input = [self.Code.displayText()]
+        user_input = self.get_user_input()
 
         if self.verify.empty_fields(user_input):
             self.responses.raise_alert(self.Response,

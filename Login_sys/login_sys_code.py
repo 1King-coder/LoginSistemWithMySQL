@@ -5,7 +5,6 @@ from .RequestNewUsername import Request_New_Username
 from .Data_base.Data_base import Usuarios
 from .SendCode.Cache import Cache
 from .GraphicGui.MainInterface import *
-from time import sleep
 from PyQt5.QtWidgets import QMainWindow, QApplication, QTableWidgetItem, \
     QMessageBox
 

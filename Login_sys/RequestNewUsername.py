@@ -19,7 +19,7 @@ class Request_New_Username(QMainWindow, Ui_MainWindow):
         self.verify = Verifications()
         self.Send_Email.clicked.connect(self.next_window)
 
-    def get_user_email(self):
+    def get_user_email(self) -> list:
         return [self.Email.text().strip()]
 
     def next_window(self):
