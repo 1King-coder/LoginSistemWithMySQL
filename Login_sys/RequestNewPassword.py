@@ -5,6 +5,7 @@ from .Verifications_and_Responses.Verifications import Verifications
 from .Verifications_and_Responses.Responses import Responses
 from .RequestConfirmationCode import Request_Confirmation_Code
 from .SendCode.GenerateAuthCode import Get_Auth_Code
+from .SendCode.Cache import Cache
 from .GraphicGui.RequestNewPasswordInterface import *
 
 
@@ -21,7 +22,7 @@ class Request_New_Password(QMainWindow, Ui_MainWindow):
         self.Confirm.clicked.connect(self.next_window)
 
     def get_user_input(self):
-        return [self.User_input.displayText()]
+        return [str(self.User_input.displayText())]
 
     def next_window(self):
         user_input = self.get_user_input()
@@ -43,7 +44,9 @@ class Request_New_Password(QMainWindow, Ui_MainWindow):
                                        'Invalid Username or E-mail.')
             return
 
+        Cache(user_input[0])
         SendEmail(self.auth_code, user_input[0]).send_email()
         self.Request_Confirmation_Code.show()
         self.responses.clear(self.Response, [self.User_input])
         self.close()
+        print(Cache())

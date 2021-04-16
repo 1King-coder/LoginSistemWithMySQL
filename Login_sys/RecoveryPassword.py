@@ -1,12 +1,53 @@
 from sys import argv
 from .Data_base.Data_base import Usuarios
-from .GraphicGui.RecoveryUsernameInterface import *
+from .GraphicGui.RecoveryPasswordInterface import *
 from PyQt5.QtWidgets import QMainWindow, QApplication
 from .Verifications_and_Responses.Verifications import Verifications
 from .Verifications_and_Responses.Responses import Responses
+from .SendCode.Cache import Cache
 
 
 class Recovery_Password(QMainWindow, Ui_MainWindow):
     def __init__(self, parent=None):
         super().__init__(parent)
         super().setupUi(self)
+
+        self.users_db = Usuarios()
+        self.responses = Responses()
+        self.verify = Verifications()
+        self.Change_btn.clicked.connect(self.change_password_in_db)
+
+    def get_user_inputs(self):
+        return [
+            self.New_pass.text(),
+            self.New_pass_repeat.text()
+        ]
+
+    def change_password_in_db(self):
+        new_passwords = self.get_user_inputs()
+
+        if self.verify.empty_fields(new_passwords):
+            self.responses.raise_alert(self.Response,
+                                       'None of the fields can be empty.')
+            return
+
+        if new_passwords[0] != new_passwords[1]:
+            self.responses.raise_error(self.Response,
+                                       'Passwords do not match.')
+            return
+
+        try:
+            if not self.users_db.change_password(str(Cache()),
+                                                 new_passwords[1]):
+                self.responses.raise_error(self.Response,
+                                           'Invalid Username')
+                return
+            self.responses.success_message(self.Response,
+                                           'Password succesfully changed!')
+            Cache('')
+            print(Cache())
+        except Exception:
+            self.responses.raise_error(self.Response,
+                                       'An error has occurred while '
+                                       'trying to change password '
+                                       'in DataBase.')

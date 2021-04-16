@@ -144,7 +144,7 @@ class Usuarios(DataBase):
         new_enc_pass = hashlib.sha256(
             new_password.strip().encode('utf-8')).hexdigest()
         self.cursor.execute('UPDATE usuarios.login_usuarios SET '
-                            f"password_hash='{new_enc_pass} "
+                            f"password_hash='{new_enc_pass}' "
                             f"WHERE id='{user_id}'")
         self.conection.commit()
         return True

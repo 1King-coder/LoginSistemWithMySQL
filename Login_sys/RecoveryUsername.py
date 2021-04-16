@@ -17,8 +17,10 @@ class Recovery_Username(QMainWindow, Ui_MainWindow):
         self.Change_btn.clicked.connect(self.change_username_in_db)
 
     def get_user_inputs(self):
-        return [self.New_username.displayText(),
-                self.Password.text()]
+        return [
+            self.New_username.displayText(),
+            str(self.Password.text())
+        ]
 
     def change_username_in_db(self):
         user_inputs = self.get_user_inputs()

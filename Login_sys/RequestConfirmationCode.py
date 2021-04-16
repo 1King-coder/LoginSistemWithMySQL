@@ -6,6 +6,7 @@ from .Verifications_and_Responses.Responses import Responses
 from .GraphicGui.RequestConfirmationCodeInterface import *
 from .RecoveryPassword import Recovery_Password
 from .SendCode.GenerateAuthCode import Get_Auth_Code
+from .SendCode.Cache import Cache
 
 
 class Request_Confirmation_Code(QMainWindow, Ui_MainWindow):
@@ -43,3 +44,4 @@ class Request_Confirmation_Code(QMainWindow, Ui_MainWindow):
         self.Recovery_Password.show()
         self.responses.clear(self.Response, [self.Code])
         self.close()
+        print(Cache())
