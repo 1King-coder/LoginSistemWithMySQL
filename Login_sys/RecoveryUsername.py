@@ -1,9 +1,12 @@
-from sys import argv
 from .Data_base.Data_base import Usuarios
 from .GraphicGui.RecoveryUsernameInterface import *
 from PyQt5.QtWidgets import QMainWindow, QApplication
 from .Verifications_and_Responses.Verifications import Verifications
 from .Verifications_and_Responses.Responses import Responses
+from .RequestConfirmationCode import Request_Confirmation_Code
+from .SendCode.GenerateAuthCode import Get_Auth_Code
+from .SendEmail import SendEmail
+from .SendCode.Cache import Cache
 
 
 class Recovery_Username(QMainWindow, Ui_MainWindow):
@@ -11,15 +14,19 @@ class Recovery_Username(QMainWindow, Ui_MainWindow):
         super().__init__(parent=parent)
         super().setupUi(self)
 
+        self.setWindowTitle('Change Username')
         self.users_db = Usuarios()
         self.responses = Responses()
         self.verify = Verifications()
+        self.auth_code = Get_Auth_Code()
+        self.Request_Confirmation_Code = Request_Confirmation_Code(
+            'Recovery Username')
         self.Change_btn.clicked.connect(self.change_username_in_db)
 
     def get_user_inputs(self):
         return [
             self.New_username.displayText(),
-            str(self.Password.text())
+            self.Email.displayText()
         ]
 
     def change_username_in_db(self):
@@ -47,16 +54,6 @@ class Recovery_Username(QMainWindow, Ui_MainWindow):
                                        'Username already taken.')
             return
 
-        try:
-            if not self.users_db.change_username(user_inputs[0],
-                                                 user_inputs[1]):
-                self.responses.raise_error(self.Response,
-                                           'Invalid Password')
-                return
-            self.responses.success_message(self.Response,
-                                           'Username succesfully changed!')
-        except Exception:
-            self.responses.raise_error(self.Response,
-                                       'An error has occurred while '
-                                       'trying to change username '
-                                       'in DataBase.')
+        SendEmail(self.auth_code, user_inputs[1]).send_email()
+        Cache([user_inputs[0], user_inputs[1]])
+        self.Request_Confirmation_Code.show()

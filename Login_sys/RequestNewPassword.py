@@ -14,17 +14,18 @@ class Request_New_Password(QMainWindow, Ui_MainWindow):
         super().__init__(parent)
         super().setupUi(self)
 
-        self.Request_Confirmation_Code = Request_Confirmation_Code()
+        self.setWindowTitle('Request a New Password')
+        self.Request_Confirmation_Code = Request_Confirmation_Code(
+            'Recovery Password')
         self.users_db = Usuarios()
-        self.auth_code = Get_Auth_Code()
         self.responses = Responses()
         self.verify = Verifications()
-        self.Confirm.clicked.connect(self.next_window)
+        self.Confirm.clicked.connect(self.confirm)
 
     def get_user_input(self):
-        return [str(self.User_input.displayText())]
+        return [self.User_input.displayText()]
 
-    def next_window(self):
+    def confirm(self):
         user_input = self.get_user_input()
 
         if self.verify.empty_fields(user_input):
@@ -45,8 +46,7 @@ class Request_New_Password(QMainWindow, Ui_MainWindow):
             return
 
         Cache(user_input[0])
-        SendEmail(self.auth_code, user_input[0]).send_email()
+        SendEmail(Get_Auth_Code(), user_input[0]).send_email()
         self.Request_Confirmation_Code.show()
         self.responses.clear(self.Response, [self.User_input])
         self.close()
-        print(Cache())

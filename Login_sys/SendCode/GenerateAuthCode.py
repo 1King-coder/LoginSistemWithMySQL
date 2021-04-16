@@ -18,5 +18,9 @@ class Get_Auth_Code:
         obj.__dict__ = cls._state
         return obj
 
+    def __init__(self, flag=None):
+        if flag is not None:
+            self._state['AuthCode'] = generate_auth_code()
+
     def __str__(self):
         return self._state['AuthCode']

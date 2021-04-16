@@ -16,9 +16,6 @@ class DataBase(ABC):
     def get_user_id(self, username): pass
 
     @abstractmethod
-    def get_user_id_by_pass(self, password): pass
-
-    @abstractmethod
     def get_username(self, id_): pass
 
     @abstractmethod
@@ -92,15 +89,6 @@ class Usuarios(DataBase):
 
             return result[0]['id'] if result else None
 
-    def get_user_id_by_pass(self, password):
-        enc_pass = hashlib.sha256(password.strip().encode('utf-8')).hexdigest()
-        self.cursor.execute('SELECT id FROM usuarios.login_usuarios'
-                            f" WHERE password_hash='{enc_pass}'")
-
-        result = self.cursor.fetchall()
-
-        return result[0]['id'] if result else None
-
     def get_username(self, user_input):
         user_id = self.get_user_id(user_input)
         self.cursor.execute('SELECT username FROM usuarios.login_usuarios'
@@ -133,7 +121,21 @@ class Usuarios(DataBase):
         self.cursor.execute('Select * FROM usuarios.login_usuarios')
         return self.cursor.fetchall()
 
-    def delete_user_from_database(self, username): pass
+    def delete_user_from_database(self, user_input):
+        try:
+            user_id = int(user_input)
+        except Exception:
+            user_id = self.get_user_id(user_input)
+
+        if not user_id:
+            return None
+
+        self.cursor.execute('DELETE FROM usuarios.login_usuarios '
+                            f"WHERE id='{user_id}'")
+
+        self.conection.commit()
+
+        return True
 
     def change_password(self, user_input, new_password):
         user_id = self.get_user_id(user_input)
@@ -147,10 +149,11 @@ class Usuarios(DataBase):
                             f"password_hash='{new_enc_pass}' "
                             f"WHERE id='{user_id}'")
         self.conection.commit()
+
         return True
 
-    def change_username(self, new_username, password):
-        user_id = self.get_user_id_by_pass(password)
+    def change_username(self, new_username, email):
+        user_id = self.get_user_id(email)
 
         if not user_id:
             return None

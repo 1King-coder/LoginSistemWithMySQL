@@ -12,8 +12,10 @@ class Recovery_Password(QMainWindow, Ui_MainWindow):
         super().__init__(parent)
         super().setupUi(self)
 
+        self.setWindowTitle('Change Password')
         self.users_db = Usuarios()
         self.responses = Responses()
+        self.cache = Cache()
         self.verify = Verifications()
         self.Change_btn.clicked.connect(self.change_password_in_db)
 
@@ -37,15 +39,15 @@ class Recovery_Password(QMainWindow, Ui_MainWindow):
             return
 
         try:
-            if not self.users_db.change_password(str(Cache()),
+            if not self.users_db.change_password(str(self.cache()),
                                                  new_passwords[1]):
                 self.responses.raise_error(self.Response,
-                                           'Invalid Username')
+                                           'An error has occurred.')
                 return
             self.responses.success_message(self.Response,
                                            'Password succesfully changed!')
-            Cache('')
-            print(Cache())
+            self.cache('')
+
         except Exception:
             self.responses.raise_error(self.Response,
                                        'An error has occurred while '

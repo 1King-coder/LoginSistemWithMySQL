@@ -83,7 +83,7 @@
      </widget>
     </item>
     <item row="3" column="0">
-     <widget class="QLineEdit" name="Password">
+     <widget class="QLineEdit" name="Email">
       <property name="font">
        <font>
         <family>Microsoft YaHei UI</family>
@@ -91,7 +91,7 @@
        </font>
       </property>
       <property name="echoMode">
-       <enum>QLineEdit::Password</enum>
+       <enum>QLineEdit::Normal</enum>
       </property>
      </widget>
     </item>
@@ -106,7 +106,7 @@
        </font>
       </property>
       <property name="text">
-       <string>Your password:</string>
+       <string>Enter your e-mail to confirm:</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
@@ -118,7 +118,7 @@
  </widget>
  <tabstops>
   <tabstop>New_username</tabstop>
-  <tabstop>Password</tabstop>
+  <tabstop>Email</tabstop>
   <tabstop>Change_btn</tabstop>
  </tabstops>
  <resources/>

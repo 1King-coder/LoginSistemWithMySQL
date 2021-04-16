@@ -1,11 +1,13 @@
-from sys import argv
-from .GraphicGui.MainInterface import *
-from PyQt5.QtWidgets import QMainWindow, QApplication, QTableWidgetItem
-from .Data_base.Data_base import Usuarios
-from .RequestNewUsername import Request_New_Username
-from .RequestNewPassword import Request_New_Password
-from .Verifications_and_Responses.Verifications import Verifications
 from .Verifications_and_Responses.Responses import Responses
+from .Verifications_and_Responses.Verifications import Verifications
+from .RequestNewPassword import Request_New_Password
+from .RequestNewUsername import Request_New_Username
+from .Data_base.Data_base import Usuarios
+from .SendCode.Cache import Cache
+from .GraphicGui.MainInterface import *
+from time import sleep
+from PyQt5.QtWidgets import QMainWindow, QApplication, QTableWidgetItem, \
+    QMessageBox
 
 
 class Login_System(QMainWindow, Ui_MainWindow):
@@ -90,6 +92,10 @@ class Login_System(QMainWindow, Ui_MainWindow):
                                        "(! # $ % ¨ & * + ')")
             return
 
+        if not self.verify.is_email(user_regist_inputs[1]):
+            self.responses.raise_alert(self.Register_response,
+                                       'The e-mail must be valid.')
+
         if self.users_db.verify_if_user_is_registered(
                 user_regist_inputs[0]):
             self.responses.raise_alert(self.Register_response,
@@ -135,4 +141,24 @@ class Login_System(QMainWindow, Ui_MainWindow):
         self.Request_New_Username.show()
 
     def delete_from_database(self):
-        pass
+        selected_user = self.Database_people.selectedItems()
+        if not selected_user:
+            self.responses.raise_alert(self.Table_response,
+                                       'Select a user first before deleting.')
+            return
+
+        if type(selected_user) == list:
+            user_to_be_deleted = selected_user[0].data(0)
+        else:
+            user_to_be_deleted = selected_user.data(0)
+
+        if not self.users_db.delete_user_from_database(user_to_be_deleted):
+            self.responses.raise_error(self.Table_response,
+                                       'An Error has occurred '
+                                       'while trying '
+                                       'to delete user.')
+            return
+
+        self.responses.success_message(self.Table_response,
+                                       'User successfuly deleted.')
+        self.show_registered_people()

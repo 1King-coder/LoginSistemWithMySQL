@@ -13,5 +13,5 @@ class Cache:
             return
         self._state['Data'] = data
 
-    def __str__(self):
+    def __call__(self):
         return self._state['Data']
