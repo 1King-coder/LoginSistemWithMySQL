@@ -1,4 +1,3 @@
-from sys import argv
 from .Data_base.Data_base import Usuarios
 from .GraphicGui.RequestNewUsernameInterface import *
 from PyQt5.QtWidgets import QMainWindow, QApplication
@@ -39,3 +38,5 @@ class Request_New_Username(QMainWindow, Ui_MainWindow):
             return
 
         self.Recovery_Username.show()
+        self.responses.clear(self.Response, [self.Password])
+        self.close()

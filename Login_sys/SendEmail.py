@@ -1,20 +1,26 @@
 import smtplib
 from string import Template
-from random import randint
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from .EmailAccount import Email_account
+from .Data_base.Data_base import Usuarios
+from .SendCode.EmailAccount import Email_account
 
 
 class SendEmail:
-    def __init__(self, code, username, user_email):
+    def __init__(self, code, user_input):
+        self.users_db = Usuarios()
         self.code = code
-        self.username = username
-        self.user_email = user_email
+        self.user_input = user_input
+
+    def get_email(self):
+        return self.users_db.get_email(self.user_input)
+
+    def get_username(self):
+        return self.users_db.get_username(self.user_input)
 
     @staticmethod
     def set_template(code):
-        with open('./SendCode/template.html', 'r') as html:
+        with open('Login_sys/SendCode/template.html', 'r') as html:
             template = Template(html.read())
             body = template.substitute(Code=code)
             return body
@@ -23,7 +29,7 @@ class SendEmail:
         body = self.set_template(self.code)
         message = MIMEMultipart()
         message['from'] = "Vitor's Login System"
-        message['subject'] = self.username
+        message['subject'] = self.get_username()
         message.attach(MIMEText(body, 'html'))
         return message
 
@@ -32,4 +38,4 @@ class SendEmail:
             server.ehlo()
             server.starttls()
             server.login(Email_account['email'], Email_account['password'])
-            server.send_message(self.set_email(), to_addrs=self.user_email)
+            server.send_message(self.set_email(), to_addrs=self.get_email())

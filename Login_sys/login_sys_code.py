@@ -115,7 +115,7 @@ class Login_System(QMainWindow, Ui_MainWindow):
             self.Database_people.setRowCount(len(people_data))
             for row in people_data:
                 self.Database_people.setItem(
-                    table_row, 0, QTableWidgetItem(row['id']))
+                    table_row, 0, QTableWidgetItem(str(row['id'])))
                 self.Database_people.setItem(
                     table_row, 1, QTableWidgetItem(row['username']))
                 self.Database_people.setItem(
@@ -129,7 +129,7 @@ class Login_System(QMainWindow, Ui_MainWindow):
                                          'while trying to retrieve Data.')
 
     def recover_password(self):
-        pass
+        self.Request_New_Password.show()
 
     def recover_user(self):
         self.Request_New_Username.show()

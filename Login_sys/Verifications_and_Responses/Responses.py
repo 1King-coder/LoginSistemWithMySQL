@@ -13,3 +13,9 @@ class Responses:
     def success_message(responser, msg):
         responser.setStyleSheet('*{color: green;}')
         responser.setText(msg)
+
+    @staticmethod
+    def clear(responser, inputs):
+        for input_ in inputs:
+            input_.setText('')
+        responser.setText('')

@@ -15,23 +15,25 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="1" column="0">
-     <widget class="QLineEdit" name="New_username">
+    <item row="5" column="0">
+     <widget class="QLabel" name="Response">
       <property name="font">
        <font>
         <family>Microsoft YaHei UI</family>
-        <pointsize>10</pointsize>
+        <pointsize>11</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
        </font>
       </property>
       <property name="text">
        <string/>
       </property>
-      <property name="echoMode">
-       <enum>QLineEdit::Normal</enum>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
       </property>
      </widget>
     </item>
-    <item row="3" column="0">
+    <item row="4" column="0">
      <widget class="QPushButton" name="Change_btn">
       <property name="font">
        <font>
@@ -64,25 +66,23 @@
       </property>
      </widget>
     </item>
-    <item row="4" column="0">
-     <widget class="QLabel" name="Response">
+    <item row="1" column="0">
+     <widget class="QLineEdit" name="New_username">
       <property name="font">
        <font>
         <family>Microsoft YaHei UI</family>
-        <pointsize>11</pointsize>
-        <weight>75</weight>
-        <bold>true</bold>
+        <pointsize>10</pointsize>
        </font>
       </property>
       <property name="text">
        <string/>
       </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
+      <property name="echoMode">
+       <enum>QLineEdit::Normal</enum>
       </property>
      </widget>
     </item>
-    <item row="2" column="0">
+    <item row="3" column="0">
      <widget class="QLineEdit" name="Password">
       <property name="font">
        <font>
@@ -92,6 +92,24 @@
       </property>
       <property name="echoMode">
        <enum>QLineEdit::Password</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="label">
+      <property name="font">
+       <font>
+        <family>Microsoft YaHei UI</family>
+        <pointsize>12</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Your password:</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
       </property>
      </widget>
     </item>

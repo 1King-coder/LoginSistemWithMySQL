@@ -17,7 +17,7 @@ class Verifications:
     def special_characters(inputs):
         for input_ in inputs:
             if re.search(r'.*!.*|.*#.*|.*\$.*|.*%.*'
-                         r'|.*¨.*|.*&|.*\*.*|.*\+.*|.*".*|.*\'.*',
+                         r'|.*¨.*|.*&.*|.*\*.*|.*\+.*|.*".*|.*\'.*',
                          input_):
                 return True
         return False

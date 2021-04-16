@@ -19,6 +19,12 @@ class DataBase(ABC):
     def get_user_id_by_pass(self, password): pass
 
     @abstractmethod
+    def get_username(self, id_): pass
+
+    @abstractmethod
+    def get_email(self, id_): pass
+
+    @abstractmethod
     def confirm_login(self, username, password, email): pass
 
     @abstractmethod
@@ -95,6 +101,20 @@ class Usuarios(DataBase):
 
         return result[0]['id'] if result else None
 
+    def get_username(self, user_input):
+        user_id = self.get_user_id(user_input)
+        self.cursor.execute('SELECT username FROM usuarios.login_usuarios'
+                            f" WHERE id='{user_id}'")
+
+        return self.cursor.fetchall()[0]['username']
+
+    def get_email(self, user_input):
+        user_id = self.get_user_id(user_input)
+        self.cursor.execute('SELECT email FROM usuarios.login_usuarios'
+                            f" WHERE id='{user_id}'")
+
+        return self.cursor.fetchall()[0]['email']
+
     def confirm_login(self, user_input, password):
         user_id = self.get_user_id(user_input)
 
@@ -126,6 +146,7 @@ class Usuarios(DataBase):
         self.cursor.execute('UPDATE usuarios.login_usuarios SET '
                             f"password_hash='{new_enc_pass} "
                             f"WHERE id='{user_id}'")
+        self.conection.commit()
         return True
 
     def change_username(self, new_username, password):
@@ -136,4 +157,5 @@ class Usuarios(DataBase):
 
         self.cursor.execute('UPDATE usuarios.login_usuarios SET '
                             f"username='{new_username}' WHERE id='{user_id}'")
+        self.conection.commit()
         return True
