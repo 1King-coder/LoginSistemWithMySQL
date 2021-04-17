@@ -16,5 +16,4 @@ Funcionalidades:
           rá o código para seguir com a operação de troca.
     - Para trocar o username só requisita a senha do usuário.
     
-    OBS: O usuário deve estar logado para alterar dados no banco de dados.
           
