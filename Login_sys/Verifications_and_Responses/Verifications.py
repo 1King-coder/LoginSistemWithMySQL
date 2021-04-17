@@ -12,7 +12,7 @@ class Verifications:
 
     @staticmethod
     def is_email(input_) -> bool:
-        if search(r'.*@.*\.com', input_):
+        if search(r'@.*\.com', input_):
             return True
 
         else:

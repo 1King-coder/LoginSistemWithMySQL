@@ -1,4 +1,3 @@
-from sys import argv
 from .Data_base.Data_base import Usuarios
 from .GraphicGui.RecoveryPasswordInterface import *
 from PyQt5.QtWidgets import QMainWindow, QApplication
@@ -46,10 +45,13 @@ class Recovery_Password(QMainWindow, Ui_MainWindow):
                 return
             self.responses.success_message(self.Response,
                                            'Password succesfully changed!')
-            self.cache('')
+            Cache('')
 
         except Exception:
             self.responses.raise_error(self.Response,
                                        'An error has occurred while '
                                        'trying to change password '
                                        'in DataBase.')
+
+        self.responses.clear([self.New_pass, self.New_pass_repeat],
+                             self.Response)

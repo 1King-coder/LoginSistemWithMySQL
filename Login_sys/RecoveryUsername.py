@@ -3,8 +3,6 @@ from .GraphicGui.RecoveryUsernameInterface import *
 from PyQt5.QtWidgets import QMainWindow, QApplication
 from .Verifications_and_Responses.Verifications import Verifications
 from .Verifications_and_Responses.Responses import Responses
-from .RequestConfirmationCode import Request_Confirmation_Code
-from .SendCode.GenerateAuthCode import Get_Auth_Code
 from .SendEmail import SendEmail
 from .SendCode.Cache import Cache
 
@@ -18,9 +16,6 @@ class Recovery_Username(QMainWindow, Ui_MainWindow):
         self.users_db = Usuarios()
         self.responses = Responses()
         self.verify = Verifications()
-        self.auth_code = Get_Auth_Code()
-        self.Request_Confirmation_Code = Request_Confirmation_Code(
-            'Recovery Username')
         self.Change_btn.clicked.connect(self.change_username_in_db)
 
     def get_user_inputs(self) -> list:
@@ -42,6 +37,11 @@ class Recovery_Username(QMainWindow, Ui_MainWindow):
                                        'New username cannot be a e-mail.')
             return
 
+        if not self.verify.is_email(user_inputs[1]):
+            self.responses.raise_error(self.Response,
+                                       'Invalid E-mail.')
+            return
+
         if self.verify.special_characters(user_inputs[0]):
             self.responses.raise_alert(self.Response,
                                        'There must not be special'
@@ -54,6 +54,21 @@ class Recovery_Username(QMainWindow, Ui_MainWindow):
                                        'Username already taken.')
             return
 
-        SendEmail(self.auth_code, user_inputs[1]).send_email()
-        Cache([user_inputs[0], user_inputs[1]])
-        self.Request_Confirmation_Code.show()
+        try:
+            if not self.users_db.change_username(user_inputs[0],
+                                                 user_inputs[1]):
+
+                self.responses.raise_error(self.Response,
+                                           'Invalid Email')
+                return
+
+            self.responses.success_message(self.Response,
+                                           'Username succesfully changed!')
+
+            self.responses.clear([self.Email, self.New_username])
+
+        except Exception:
+            self.responses.raise_error(self.Response,
+                                       'An error has occurred while '
+                                       'trying to change username '
+                                       'in DataBase.')

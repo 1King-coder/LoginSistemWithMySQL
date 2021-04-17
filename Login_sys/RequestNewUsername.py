@@ -3,8 +3,10 @@ from .GraphicGui.RequestNewUsernameInterface import *
 from PyQt5.QtWidgets import QMainWindow, QApplication
 from .Verifications_and_Responses.Verifications import Verifications
 from .Verifications_and_Responses.Responses import Responses
+from .SendEmail import SendEmail
 from .SendCode.Cache import Cache
-from .RecoveryUsername import Recovery_Username
+from .SendCode.GenerateAuthCode import Get_Auth_Code
+from .RequestConfirmationCode import Request_Confirmation_Code
 
 
 class Request_New_Username(QMainWindow, Ui_MainWindow):
@@ -13,8 +15,11 @@ class Request_New_Username(QMainWindow, Ui_MainWindow):
         super().setupUi(self)
 
         self.setWindowTitle('Request a New Username')
-        self.Recovery_Username = Recovery_Username()
+        self.Request_Confirmation_Code = Request_Confirmation_Code(
+            'Recovery Username'
+        )
         self.users_db = Usuarios()
+        self.auth_code = Get_Auth_Code()
         self.responses = Responses()
         self.verify = Verifications()
         self.Send_Email.clicked.connect(self.next_window)
@@ -39,10 +44,14 @@ class Request_New_Username(QMainWindow, Ui_MainWindow):
             return
 
         if not self.users_db.get_user_id(email[0]):
-            self.responses.raise_error(self.Response, 'Invalid Password')
+            self.responses.raise_error(self.Response, 'Invalid Password.')
             return
 
-        Cache(email[0])
-        self.Recovery_Username.show()
-        self.responses.clear(self.Response, [self.Email])
+        if not self.verify.is_email(email[0]):
+            self.responses.raise_error(self.Response, 'Invalid E-mail.')
+            return
+
+        SendEmail(self.auth_code, email[0]).send_email()
+        self.Request_Confirmation_Code.show()
+        self.responses.clear([self.Email], self.Response)
         self.close()

@@ -93,7 +93,8 @@ class Login_System(QMainWindow, Ui_MainWindow):
 
         if not self.verify.is_email(user_regist_inputs[1]):
             self.responses.raise_alert(self.Register_response,
-                                       'The e-mail must be valid.')
+                                       'Invalid E-mail.')
+            return
 
         if self.users_db.verify_if_user_is_registered(
                 user_regist_inputs[0]):
@@ -117,7 +118,7 @@ class Login_System(QMainWindow, Ui_MainWindow):
         table_row = 0
         try:
             people_data = self.users_db.list_registered_users()
-            self.Database_people.setRowCount(len(people_data)-1)
+            self.Database_people.setRowCount(len(people_data))
             for row in people_data:
                 self.Database_people.setItem(
                     table_row, 0, QTableWidgetItem(str(row['id'])))

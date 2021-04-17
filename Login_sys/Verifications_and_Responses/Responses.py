@@ -15,7 +15,9 @@ class Responses:
         responser.setText(msg)
 
     @staticmethod
-    def clear(responser, inputs):
+    def clear(inputs, responser=None):
         for input_ in inputs:
             input_.setText('')
+        if responser is None:
+            return
         responser.setText('')

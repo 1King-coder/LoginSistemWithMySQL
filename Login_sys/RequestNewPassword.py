@@ -48,5 +48,5 @@ class Request_New_Password(QMainWindow, Ui_MainWindow):
         Cache(user_input[0])
         SendEmail(Get_Auth_Code(), user_input[0]).send_email()
         self.Request_Confirmation_Code.show()
-        self.responses.clear(self.Response, [self.User_input])
+        self.responses.clear([self.User_input], self.Response)
         self.close()
