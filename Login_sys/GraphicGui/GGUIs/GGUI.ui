@@ -473,29 +473,6 @@
             </color>
            </property>
           </column>
-          <column>
-           <property name="text">
-            <string>password</string>
-           </property>
-           <property name="font">
-            <font>
-             <family>Microsoft YaHei UI</family>
-             <pointsize>10</pointsize>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="textAlignment">
-            <set>AlignCenter</set>
-           </property>
-           <property name="background">
-            <color>
-             <red>207</red>
-             <green>203</green>
-             <blue>210</blue>
-            </color>
-           </property>
-          </column>
          </widget>
         </item>
         <item row="3" column="0" colspan="2">

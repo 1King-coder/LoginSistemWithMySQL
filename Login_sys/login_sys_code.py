@@ -117,7 +117,7 @@ class Login_System(QMainWindow, Ui_MainWindow):
         table_row = 0
         try:
             people_data = self.users_db.list_registered_users()
-            self.Database_people.setRowCount(len(people_data))
+            self.Database_people.setRowCount(len(people_data)-1)
             for row in people_data:
                 self.Database_people.setItem(
                     table_row, 0, QTableWidgetItem(str(row['id'])))
@@ -125,8 +125,6 @@ class Login_System(QMainWindow, Ui_MainWindow):
                     table_row, 1, QTableWidgetItem(row['username']))
                 self.Database_people.setItem(
                     table_row, 2, QTableWidgetItem(row['email']))
-                self.Database_people.setItem(
-                    table_row, 3, QTableWidgetItem(row['password_hash']))
                 table_row += 1
         except Exception:
             self.Database_people.setRowCount(1)
