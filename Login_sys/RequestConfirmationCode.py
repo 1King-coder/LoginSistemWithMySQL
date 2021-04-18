@@ -62,25 +62,20 @@ class Request_Confirmation_Code(QMainWindow, Ui_MainWindow):
                                        'Incorrect Code.')
             return
 
+        """Clear input and responser"""
+        self.responses.clear([self.Code], self.Response)
+
         if self.flag == 'Recovery Password':
             """Open Recovery Password window."""
             self.Recovery_Password.show()
 
             self.close()
-            return
 
         if self.flag == 'Recovery Username':
             """Open Recovery Username window."""
             self.Recovery_Username.show()
 
             self.close()
-            return
 
         """Generate a new auth code for a next usage."""
         Get_Auth_Code(True)
-
-        """Clear input and responser"""
-        self.responses.clear([self.Code], self.Response)
-
-        self.close()
-        Cache('')  # Clear the Cache memory.
