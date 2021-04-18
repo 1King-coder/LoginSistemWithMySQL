@@ -42,7 +42,7 @@ class Recovery_Password(QMainWindow, Ui_MainWindow):
             """
             Try to change the password in the DB
             using the user input inserted in the
-            request new password class with the 
+            request new password class with the
             cache's class function.
             """
             if not self.users_db.change_password(str(self.cache()),
@@ -50,6 +50,9 @@ class Recovery_Password(QMainWindow, Ui_MainWindow):
                 self.responses.raise_error(self.Response,
                                            'An error has occurred.')
                 return
+            self.responses.clear([self.New_pass, self.New_pass_repeat],
+                                 self.Response)
+
             self.responses.success_message(self.Response,
                                            'Password succesfully changed!')
 
@@ -60,6 +63,3 @@ class Recovery_Password(QMainWindow, Ui_MainWindow):
                                        'An error has occurred while '
                                        'trying to change password '
                                        'in DataBase.')
-
-        self.responses.clear([self.New_pass, self.New_pass_repeat],
-                             self.Response)
