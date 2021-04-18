@@ -1,0 +1,22 @@
+version: "3"
+services: 
+  mysql_knex:
+    container_name: Container
+    hostname: Container
+    image: mysql
+    restart: always
+    command:
+      - --default-authentication-plugin=mysql_native_password
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --innodb_force_recovery=0
+    volumes: 
+      - .\MySQL_Docker\Container:/var/lib/mysql
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: Password
+      MYSQL_DATABASE: users
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: Password
+      TZ: # Insert you Time zone here like America/Rio_de_Janeiro

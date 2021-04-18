@@ -48,8 +48,8 @@ class Usuarios(DataBase):
         'conection': pymysql.connect(
             host='localhost',
             user='root',
-            password='Password1331',
-            db='usuarios',
+            password='Password',
+            db='users',
             charset='utf8mb4',
             cursorclass=pymysql.cursors.DictCursor
         )
@@ -71,7 +71,7 @@ class Usuarios(DataBase):
         """
         enc_pass = hashlib.sha256(password.strip().encode('utf-8')).hexdigest()
 
-        self.cursor.execute('INSERT INTO usuarios.login_usuarios (username,'
+        self.cursor.execute('INSERT INTO users.users_login (username,'
                             ' email, password_hash) VALUES'
                             '(%s, %s, %s)', [username, email, enc_pass])
 
@@ -82,7 +82,7 @@ class Usuarios(DataBase):
         Verify if the user's username
         is already in the DB table.
         """
-        self.cursor.execute('SELECT username FROM usuarios.login_usuarios'
+        self.cursor.execute('SELECT username FROM users.users_login'
                             f" WHERE username='{username}'")
 
         result = self.cursor.fetchall()
@@ -95,12 +95,12 @@ class Usuarios(DataBase):
         or e-mail.
         """
         if re.search(r'@.*\.com', user_input):
-            self.cursor.execute('SELECT id FROM usuarios.login_usuarios'
+            self.cursor.execute('SELECT id FROM users.users_login'
                                 f" WHERE email='{user_input}'")
 
             return self.cursor.fetchall()[0]['id']
 
-        self.cursor.execute('SELECT id FROM usuarios.login_usuarios'
+        self.cursor.execute('SELECT id FROM users.users_login'
                             f" WHERE username='{user_input}'")
 
         result = self.cursor.fetchall()
@@ -112,7 +112,7 @@ class Usuarios(DataBase):
         Get user's username by his id.
         """
         user_id = self.get_user_id(user_input)
-        self.cursor.execute('SELECT username FROM usuarios.login_usuarios'
+        self.cursor.execute('SELECT username FROM users.users_login'
                             f" WHERE id='{user_id}'")
 
         return self.cursor.fetchall()[0]['username']
@@ -122,7 +122,7 @@ class Usuarios(DataBase):
         Get user's e-mail by his id.
         """
         user_id = self.get_user_id(user_input)
-        self.cursor.execute('SELECT email FROM usuarios.login_usuarios'
+        self.cursor.execute('SELECT email FROM users.users_login'
                             f" WHERE id='{user_id}'")
 
         return self.cursor.fetchall()[0]['email']
@@ -139,7 +139,7 @@ class Usuarios(DataBase):
             return None
 
         enc_pass = hashlib.sha256(password.strip().encode('utf-8')).hexdigest()
-        self.cursor.execute('SELECT password_hash FROM usuarios.login_usuarios'
+        self.cursor.execute('SELECT password_hash FROM users.users_login'
                             f" WHERE id='{user_id}'")
 
         confirmation = enc_pass == self.cursor.fetchall()[0]['password_hash']
@@ -147,7 +147,7 @@ class Usuarios(DataBase):
         return 'Confirm' if confirmation else 'Invalid password'
 
     def list_registered_users(self):
-        self.cursor.execute('Select * FROM usuarios.login_usuarios')
+        self.cursor.execute('Select * FROM users.users_login')
         return self.cursor.fetchall()
 
     def delete_user_from_database(self, user_input):
@@ -163,7 +163,7 @@ class Usuarios(DataBase):
         if not user_id:
             return None
 
-        self.cursor.execute('DELETE FROM usuarios.login_usuarios '
+        self.cursor.execute('DELETE FROM users.users_login '
                             f"WHERE id='{user_id}'")
 
         self.conection.commit()
@@ -182,7 +182,7 @@ class Usuarios(DataBase):
 
         new_enc_pass = hashlib.sha256(
             new_password.strip().encode('utf-8')).hexdigest()
-        self.cursor.execute('UPDATE usuarios.login_usuarios SET '
+        self.cursor.execute('UPDATE users.users_login SET '
                             f"password_hash='{new_enc_pass}' "
                             f"WHERE id='{user_id}'")
         self.conection.commit()
@@ -199,7 +199,7 @@ class Usuarios(DataBase):
         if not user_id:
             return None
 
-        self.cursor.execute('UPDATE usuarios.login_usuarios SET '
+        self.cursor.execute('UPDATE users.users_login SET '
                             f"username='{new_username}' WHERE id='{user_id}'")
         self.conection.commit()
         return True
