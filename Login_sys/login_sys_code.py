@@ -14,12 +14,26 @@ class Login_System(QMainWindow, Ui_MainWindow):
         super().__init__(parent)
         super().setupUi(self)
 
+        """
+        Import the class for alerts.
+        """
         self.responses = Responses()
+
+        """
+        Import the class for verifying the inputs.
+        """
         self.verify = Verifications()
+
+        """Initialize Request_New_Username and  - _ - _Password"""
         self.Request_New_Username = Request_New_Username()
         self.Request_New_Password = Request_New_Password()
+
+        """Initialize the DB."""
         self.users_db = Usuarios()
+
+        """List the users for the first time when openning the programm"""
         self.show_registered_people()
+
         self.setWindowTitle('Login System from Vitor')
         self.Login_btn.clicked.connect(self.log_in_system)
         self.Register_btn.clicked.connect(self.register)
@@ -42,14 +56,28 @@ class Login_System(QMainWindow, Ui_MainWindow):
         ]
 
     def insert_into_database(self, username, email, password):
+        """
+        Inser the registered user data into
+        the DB.
+        """
         self.users_db.register_new_user(
             username, email, password)
         Responses.success_message(self.Register_response,
                                   f'User: {username} succesfully registered')
 
     def log_in_system(self):
+        user_login_inputs = self.get_user_login_input()
+
+        if self.verify.empty_fields(user_login_inputs):
+            self.responses.raise_alert(self.Login_response,
+                                       'None of the fields can be empty.')
+            return
+
         try:
-            user_login_inputs = self.get_user_login_input()
+            """
+            Try to log in, returning the result from
+            the DB class.
+            """
             confirm_inputs = self.users_db.confirm_login(
                 user_login_inputs[0],
                 user_login_inputs[1])
@@ -58,13 +86,7 @@ class Login_System(QMainWindow, Ui_MainWindow):
                                        'An Error has occurred '
                                        'while trying to login')
 
-        if self.verify.empty_fields(user_login_inputs):
-            self.responses.raise_alert(self.Login_response,
-                                       'None of the fields can be empty.')
-            return
-
         if confirm_inputs == 'Confirm':
-
             self.responses.success_message(self.Login_response,
                                            'Successfuly Logged!')
 
@@ -72,6 +94,10 @@ class Login_System(QMainWindow, Ui_MainWindow):
             self.responses.raise_error(self.Login_response, confirm_inputs)
 
         else:
+            """
+            This one means that the username or e-mail
+            isn't in the DB.
+            """
             self.responses.raise_alert(self.Login_response,
                                        'User not registered in the system')
 
@@ -96,6 +122,9 @@ class Login_System(QMainWindow, Ui_MainWindow):
                                        'Invalid E-mail.')
             return
 
+        """
+        Verify if there is the same username registered.
+        """
         if self.users_db.verify_if_user_is_registered(
                 user_regist_inputs[0]):
             self.responses.raise_alert(self.Register_response,
@@ -115,10 +144,16 @@ class Login_System(QMainWindow, Ui_MainWindow):
                                        'to register user.')
 
     def show_registered_people(self):
+        """
+        Set and reset Items in the QTableWidget aways when called.
+        """
         table_row = 0
         try:
+            """Get the data from DB"""
             people_data = self.users_db.list_registered_users()
+
             self.Database_people.setRowCount(len(people_data))
+
             for row in people_data:
                 self.Database_people.setItem(
                     table_row, 0, QTableWidgetItem(str(row['id'])))
@@ -133,13 +168,24 @@ class Login_System(QMainWindow, Ui_MainWindow):
                                          'while trying to retrieve Data.')
 
     def recover_password(self):
+        """
+        open the Request new password window.
+        """
         self.Request_New_Password.show()
 
     def recover_user(self):
+        """
+        open the Request new username window.
+        """
         self.Request_New_Username.show()
 
     def delete_from_database(self):
+        """
+        Delete selected row in the TableWidget directly
+        in the DB
+        """
         selected_user = self.Database_people.selectedItems()
+
         if not selected_user:
             self.responses.raise_alert(self.Table_response,
                                        'Select a user first before deleting.')
@@ -159,4 +205,6 @@ class Login_System(QMainWindow, Ui_MainWindow):
 
         self.responses.success_message(self.Table_response,
                                        'User successfuly deleted.')
+
+        """Refresh the TableWidget items."""
         self.show_registered_people()
