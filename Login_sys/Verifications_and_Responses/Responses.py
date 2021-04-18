@@ -1,4 +1,5 @@
 class Responses:
+    """Sets responsers color and message."""
     @staticmethod
     def raise_error(responser, msg):
         responser.setStyleSheet('*{color: red;}')
@@ -16,6 +17,9 @@ class Responses:
 
     @staticmethod
     def clear(inputs, responser=None):
+        """
+        Clear inputs and responsers
+        """
         for input_ in inputs:
             input_.setText('')
         if responser is None:

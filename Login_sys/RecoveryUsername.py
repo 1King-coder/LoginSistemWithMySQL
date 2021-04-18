@@ -3,6 +3,7 @@ from .GraphicGui.RecoveryUsernameInterface import *
 from PyQt5.QtWidgets import QMainWindow, QApplication
 from .Verifications_and_Responses.Verifications import Verifications
 from .Verifications_and_Responses.Responses import Responses
+from time import sleep
 from .SendEmail import SendEmail
 from .SendCode.Cache import Cache
 
@@ -55,17 +56,22 @@ class Recovery_Username(QMainWindow, Ui_MainWindow):
             return
 
         try:
-            if not self.users_db.change_username(user_inputs[0],
-                                                 user_inputs[1]):
-
+            """
+            Try to change the username in the DB.
+            """
+            change = self.users_db.change_username(user_inputs[0],
+                                                   user_inputs[1])
+            if not change:
                 self.responses.raise_error(self.Response,
                                            'Invalid Email')
                 return
 
+            """Clear the inputs and the responser."""
+            self.responses.clear([self.Email, self.New_username],
+                                 self.Response)
+
             self.responses.success_message(self.Response,
                                            'Username succesfully changed!')
-
-            self.responses.clear([self.Email, self.New_username])
 
         except Exception:
             self.responses.raise_error(self.Response,

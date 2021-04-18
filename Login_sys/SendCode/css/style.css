@@ -1,26 +1,37 @@
 .container {
-    background-image: url(https://i.pinimg.com/originals/31/4e/9a/314e9a89ae515e47879bcb8198ccfa76.png);
-    align-content: center;
-    background-size: cover;
+    width: clamp(600px, 50%, 1000px);
+    height: 20vh;
     padding: 100px 120px 100px 120px ;
-    display: inline-block;
-    border-radius: 20px
+    place-content: relative;
+    align-items: center;
+    display: grid;
+    border-radius: 500px
 }
 
+
+.container2 {
+    place-content: center;
+    height: 20vh;
+    width: 40vh;
+    display: grid;
+    border-radius: 500px
+}
+ 
 .div-container {
-    background-color: rgba(255, 255, 255, 0.657);
-    display: inline-block;
-    padding: 40px 120px 40px 120px;
+    place-content: center;
+    display: grid;
+    height: 20vh;
+    width: 40vh;
     margin: 0px;
-    border-radius: 20px;
+    border-radius: 500px;
 }
 
 #title {
+    text-align: center;
     margin: 0;
     padding: 0px;
     font-size: 60px;
     font-family: sans-serif;
-    text-align: justify;
 }
 
 #code {

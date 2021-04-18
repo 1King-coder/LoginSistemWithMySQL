@@ -1,4 +1,10 @@
 class Cache:
+    """
+    Class used for storing a data
+    from one instance and allow
+    a different class instance to
+    access this data.
+    """
     _state: dict = {
         'Data': ''
     }
@@ -14,4 +20,5 @@ class Cache:
         self._state['Data'] = data
 
     def __call__(self):
+        """Return the data by calling this class"""
         return self._state['Data']

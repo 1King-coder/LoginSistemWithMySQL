@@ -2,6 +2,10 @@ from re import search
 
 
 class Verifications:
+    """
+    Makes verifications into
+    the inputs fields.
+    """
     @staticmethod
     def empty_fields(fields) -> bool:
         for field in fields:

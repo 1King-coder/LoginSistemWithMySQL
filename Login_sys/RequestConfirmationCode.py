@@ -12,25 +12,36 @@ from time import sleep
 
 
 class Request_Confirmation_Code(QMainWindow, Ui_MainWindow):
+    """
+    Class responsible for validating the authentication
+    code and lead for the correspondent data revocery.
+    """
+
     def __init__(self, flag, parent=None):
         super().__init__(parent=parent)
         super().setupUi(self)
 
         self.setWindowTitle('Authentication')
         self.flag = flag
-        self.Recovery_Password = Recovery_Password()
-        self.Recovery_Username = Recovery_Username()
+
+        """Initialize the Recovery_Password or Recovery_Username classes."""
+        if self.flag == 'Recovery Password':
+            self.Recovery_Password = Recovery_Password()
+        else:
+            self.Recovery_Username = Recovery_Username()
+
+        """Retrieve the Auth code sended by e-mail"""
         self.auth_code = Get_Auth_Code(None)
         self.cache = Cache()
         self.users_db = Usuarios()
         self.responses = Responses()
         self.verify = Verifications()
-        self.Confirm_btn.clicked.connect(self.confirm)
+        self.Confirm_btn.clicked.connect(self.validate)
 
     def get_user_input(self) -> list:
         return [self.Code.displayText()]
 
-    def confirm(self):
+    def validate(self):
         user_input = self.get_user_input()
 
         if self.verify.empty_fields(user_input):
@@ -45,22 +56,31 @@ class Request_Confirmation_Code(QMainWindow, Ui_MainWindow):
                                        "(! # $ % ¨ & * + ')")
             return
 
+        """Validate the auth code"""
         if not user_input[0] == str(self.auth_code):
             self.responses.raise_error(self.Response,
                                        'Incorrect Code.')
             return
 
         if self.flag == 'Recovery Password':
+            """Open Recovery Password window."""
             self.Recovery_Password.show()
+
             self.close()
             return
 
         if self.flag == 'Recovery Username':
+            """Open Recovery Username window."""
             self.Recovery_Username.show()
+
             self.close()
             return
 
+        """Generate a new auth code for a next usage."""
         Get_Auth_Code(True)
+
+        """Clear input and responser"""
         self.responses.clear([self.Code], self.Response)
+
         self.close()
-        Cache('')
+        Cache('')  # Clear the Cache memory.

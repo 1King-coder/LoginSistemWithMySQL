@@ -12,7 +12,8 @@ from .RequestConfirmationCode import Request_Confirmation_Code
 class Request_New_Username(QMainWindow, Ui_MainWindow):
     """
     Class responsible for sending the authentication
-    code to change the user's username.
+    code to access the recovery username window
+    where the user will be able to change his username.
     """
 
     def __init__(self, parent=None):
@@ -56,7 +57,12 @@ class Request_New_Username(QMainWindow, Ui_MainWindow):
             self.responses.raise_error(self.Response, 'Invalid E-mail.')
             return
 
-        SendEmail(self.auth_code, email[0]).send_email()  # Sends the auth code
-        self.Request_Confirmation_Code.show()  # Open the Authentication window
+        """Get the Auth code and send it by the user's email."""
+        SendEmail(self.auth_code, email[0]).send_email()
+
+        """Open the Authentication window."""
+        self.Request_Confirmation_Code.show()
+
+        """Clear the inputs and responser."""
         self.responses.clear([self.Email], self.Response)
         self.close()

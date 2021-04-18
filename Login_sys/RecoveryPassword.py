@@ -32,12 +32,19 @@ class Recovery_Password(QMainWindow, Ui_MainWindow):
                                        'None of the fields can be empty.')
             return
 
+        """Compare the passwords."""
         if new_passwords[0] != new_passwords[1]:
             self.responses.raise_error(self.Response,
                                        'Passwords do not match.')
             return
 
         try:
+            """
+            Try to change the password in the DB
+            using the user input inserted in the
+            request new password class with the 
+            cache's class function.
+            """
             if not self.users_db.change_password(str(self.cache()),
                                                  new_passwords[1]):
                 self.responses.raise_error(self.Response,
@@ -45,7 +52,8 @@ class Recovery_Password(QMainWindow, Ui_MainWindow):
                 return
             self.responses.success_message(self.Response,
                                            'Password succesfully changed!')
-            Cache('')
+
+            Cache('')  # Clear the Cache.
 
         except Exception:
             self.responses.raise_error(self.Response,
